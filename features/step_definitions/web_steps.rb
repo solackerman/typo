@@ -276,3 +276,21 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+Given /^I have created an Article "(.*?)" with body "(.*?)"$/ do |arg1, arg2|
+  visit path_to("the new article page")
+  fill_in 'article_title', :with => arg1
+  fill_in 'article__body_and_extended_editor', :with => arg2
+  click_button "Publish"
+end
+
+Given /^I have created a Comment on "(.*?)" with content "(.*?)"$/ do |arg1, arg2|
+  visit '/'
+  click_on arg1
+  
+  fill_in 'comment_author', :with => 'admin'
+  fill_in 'comment_email', :with => 'admin@test.com'
+  fill_in 'comment_url', :with => 'http://admin.com'
+  fill_in 'comment_body', :with => arg2
+  click_button 'comment'
+end

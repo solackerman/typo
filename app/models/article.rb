@@ -79,6 +79,10 @@ class Article < Content
   def has_child?
     Article.exists?({:parent_id => self.id})
   end
+  
+  def merge_id
+    return ""
+  end
 
   attr_accessor :draft, :keywords
 

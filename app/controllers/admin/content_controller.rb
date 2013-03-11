@@ -51,6 +51,19 @@ class Admin::ContentController < Admin::BaseController
     flash[:notice] = _("This article was deleted successfully")
     redirect_to :action => 'index'
   end
+  
+  def merge
+    if !request.put? || !current_user.admin?
+      return(redirect_to :action => 'index')
+    end
+    
+    if( !(params[:merge_id] && Article.exists?(params[:merge_id])) )
+    
+      flash[:error] = _("You must specify an article ID to merge with")
+      redirect_to :action => 'index'
+      puts params.inspect
+    end
+  end
 
   def insert_editor
     editor = 'visual'
