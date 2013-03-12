@@ -2,13 +2,8 @@
 
 <%= render "admin/shared/edit", { :form_type => "article", :form_action => { :action => "new", :id => @article.id , :class => ('autosave')} } %>
 
-<div class=''>
-	<% if @article.id? and current_user.admin?%>
-	  <h3><%= _("Merge Articles") %></h3>
-	  <%= form_tag(:action => "/admin/content/merge", :method => "put", :id => @article.id ) do %>
-	    <%= label :article, :merge_id, "Article ID:" %>
-	    <%= text_field :article, :merge_id %>
-	    <%= submit_tag("Merge", { :class => 'btn primary', :id => 'merge_with'}) %>
-	  <% end %>
-	<% end %>
-</div>  
+<%= form_tag :action => "merge", :id => @article.id do %>
+
+  <%= render :partial => "merge_articles" if current_user.admin? && @article && @article.id %>
+
+<% end %>

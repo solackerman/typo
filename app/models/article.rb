@@ -80,7 +80,7 @@ class Article < Content
     Article.exists?({:parent_id => self.id})
   end
   
-  def merge_id
+  def merge_with
     return ""
   end
 
