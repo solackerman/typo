@@ -2,6 +2,8 @@ require 'base64'
 
 module Admin; end
 class Admin::ContentController < Admin::BaseController
+  before_filter :admin?, :only => [:merge]
+  
   layout "administration", :except => [:show, :autosave]
 
   cache_sweeper :blog_sweeper
@@ -53,6 +55,7 @@ class Admin::ContentController < Admin::BaseController
   end
   
   def merge
+    debugger
     if !request.put? || !current_user.admin?
       return(redirect_to :action => 'index')
     end
@@ -252,5 +255,14 @@ class Admin::ContentController < Admin::BaseController
 
   def setup_resources
     @resources = Resource.by_created_at
+  end
+  
+  private
+  
+  def admin?
+    if current_user.admin?
+      flash[:error] = "Only an Admin can do that."
+      redirect_to :action => 'index'
+    end
   end
 end
